@@ -23,9 +23,9 @@ exports.getLogin = (req, res, next) => {
   } else {
     message = null;
   }
-  res.render('auth/login', {
-    path: '/login',
-    pageTitle: 'Login',
+  res.status(200).json( {
+    // path: '/login',
+    // pageTitle: 'Login',
     errorMessage: message,
     oldInput: {
       email: '',
@@ -42,9 +42,9 @@ exports.getSignup = (req, res, next) => {
   } else {
     message = null;
   }
-  res.render('auth/signup', {
-    path: '/signup',
-    pageTitle: 'Signup',
+  res.status(200).json({
+    // path: '/signup',
+    // pageTitle: 'Signup',
     errorMessage: message,
     oldInput: {
       email: '',
@@ -61,9 +61,9 @@ exports.postLogin = (req, res, next) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(422).render('auth/login', {
-      path: '/login',
-      pageTitle: 'Login',
+    return res.status(422).json({
+      // path: '/login',
+      // pageTitle: 'Login',
       errorMessage: errors.array()[0].msg,
       oldInput: {
         email: email,
@@ -76,9 +76,9 @@ exports.postLogin = (req, res, next) => {
   User.findOne({ email: email })
     .then(user => {
       if (!user) {
-        return res.status(422).render('auth/login', {
-          path: '/login',
-          pageTitle: 'Login',
+        return res.status(422).json({
+          // path: '/login',
+          // pageTitle: 'Login',
           errorMessage: 'Invalid email or password.',
           oldInput: {
             email: email,
@@ -98,7 +98,7 @@ exports.postLogin = (req, res, next) => {
               res.redirect('/');
             });
           }
-          return res.status(422).render('auth/login', {
+          return res.status(422).json({
             path: '/login',
             pageTitle: 'Login',
             errorMessage: 'Invalid email or password.',
@@ -122,15 +122,16 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  console.log("$$$$$$$$$$$$4", req.body)
   const email = req.body.email;
   const password = req.body.password;
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors.array());
-    return res.status(422).render('auth/signup', {
-      path: '/signup',
-      pageTitle: 'Signup',
+    return res.status(422).json({
+      // path: '/signup',
+      // pageTitle: 'Signup',
       errorMessage: errors.array()[0].msg,
       oldInput: {
         email: email,
@@ -152,7 +153,8 @@ exports.postSignup = (req, res, next) => {
       return user.save();
     })
     .then(result => {
-      res.redirect('/login');
+      // res.redirect('/login');
+      res.json(result);
       // return transporter.sendMail({
       //   to: email,
       //   from: 'shop@node-complete.com',
@@ -181,7 +183,7 @@ exports.getReset = (req, res, next) => {
   } else {
     message = null;
   }
-  res.render('auth/reset', {
+  res.json('auth/reset', {
     path: '/reset',
     pageTitle: 'Reset Password',
     errorMessage: message
@@ -235,9 +237,7 @@ exports.getNewPassword = (req, res, next) => {
       } else {
         message = null;
       }
-      res.render('auth/new-password', {
-        path: '/new-password',
-        pageTitle: 'New Password',
+      res.json({
         errorMessage: message,
         userId: user._id.toString(),
         passwordToken: token

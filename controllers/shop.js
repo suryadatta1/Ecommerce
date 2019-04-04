@@ -18,8 +18,8 @@ exports.getProducts = (req, res, next) => {
     .then(numProducts => {
       totalItems = numProducts;
       return Product.find()
-        .skip((page - 1) * ITEMS_PER_PAGE)
-        .limit(ITEMS_PER_PAGE);
+        // .skip((page - 1) * ITEMS_PER_PAGE)
+        // .limit(ITEMS_PER_PAGE);
     })
     .then(products => {
       res.status(200).json({
@@ -43,10 +43,10 @@ exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findById(prodId)
     .then(product => {
-      res.render('shop/product-detail', {
+      res.status(200).json({
         product: product,
-        pageTitle: product.title,
-        path: '/products'
+        // pageTitle: product.title,
+        // path: '/products'
       });
     })
     .catch(err => {
@@ -69,16 +69,16 @@ exports.getIndex = (req, res, next) => {
         .limit(ITEMS_PER_PAGE);
     })
     .then(products => {
-      res.render('shop/index', {
+      res.status(200).json({
         prods: products,
-        pageTitle: 'Shop',
-        path: '/',
-        currentPage: page,
-        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
-        hasPreviousPage: page > 1,
-        nextPage: page + 1,
-        previousPage: page - 1,
-        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+        // pageTitle: 'Shop',
+        // path: '/',
+        // currentPage: page,
+        // hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        // hasPreviousPage: page > 1,
+        // nextPage: page + 1,
+        // previousPage: page - 1,
+        // lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
       });
     })
     .catch(err => {
@@ -94,9 +94,9 @@ exports.getCart = (req, res, next) => {
     .execPopulate()
     .then(user => {
       const products = user.cart.items;
-      res.render('shop/cart', {
-        path: '/cart',
-        pageTitle: 'Your Cart',
+      res.status(200).json({
+        // path: '/cart',
+        // pageTitle: 'Your Cart',
         products: products
       });
     })
@@ -148,7 +148,7 @@ exports.getCheckout = (req, res, next) => {
       products.forEach(p => {
         total += p.quantity * p.productId.price;
       });
-      res.render('shop/checkout', {
+      res.json('shop/checkout', {
         path: '/checkout',
         pageTitle: 'Checkout',
         products: products,
@@ -199,7 +199,7 @@ exports.postOrder = (req, res, next) => {
       return req.user.clearCart();
     })
     .then(() => {
-      res.redirect('/orders');
+      res.sendStatus(200);
     })
     .catch(err => {
       const error = new Error(err);
@@ -211,9 +211,9 @@ exports.postOrder = (req, res, next) => {
 exports.getOrders = (req, res, next) => {
   Order.find({ 'user.userId': req.user._id })
     .then(orders => {
-      res.render('shop/orders', {
-        path: '/orders',
-        pageTitle: 'Your Orders',
+      res.json({
+        // path: '/orders',
+        // pageTitle: 'Your Orders',
         orders: orders
       });
     })

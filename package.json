@@ -9,6 +9,7 @@
     "start-server": "node app.js"
   },
   "author": "Surya Datta",
+  "co-author": "Koushik Gelli, Tarun Manchukonda, Ravi Kiran",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.18.3",
@@ -19,6 +20,7 @@
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^2.1.1",
+    "cors": "^2.8.5",
     "csurf": "^1.9.0",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
