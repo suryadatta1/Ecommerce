@@ -9,7 +9,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 const multer = require("multer");
 const cors = require("cors");
-const port = process.env.port || 5000;
+const port = process.env.PORT || 5000;
 
 const errorController = require('./controllers/error');
 const shopController = require('./controllers/shop');
