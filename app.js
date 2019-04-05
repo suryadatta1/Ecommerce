@@ -8,6 +8,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 // const csrf = require("csurf");
 const flash = require("connect-flash");
 const multer = require("multer");
+const cors = require("cors");
 const port = process.env.port || 5000;
 
 const errorController = require('./controllers/error');
@@ -18,6 +19,7 @@ const User = require('./models/user');
 const MONGODB_URI = "mongodb://surya:surya1234@ds121406.mlab.com:21406/shop";
 
 const app = express();
+app.use(cors())
 const store = new MongoDBStore({
   uri: MONGODB_URI,
   collection: 'sessions'
