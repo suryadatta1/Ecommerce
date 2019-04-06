@@ -65,8 +65,8 @@ exports.getIndex = (req, res, next) => {
     .then(numProducts => {
       totalItems = numProducts;
       return Product.find()
-        .skip((page - 1) * ITEMS_PER_PAGE)
-        .limit(ITEMS_PER_PAGE);
+        // .skip((page - 1) * ITEMS_PER_PAGE)
+        // .limit(ITEMS_PER_PAGE);
     })
     .then(products => {
       res.status(200).json({
